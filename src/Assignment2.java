@@ -5,18 +5,114 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class Assignment2 {
-    public static void main(String args[]){
-//        System.out.println("hello");
+    public static void main(String args[])throws Exception{
+
+        Scanner input = new Scanner(System.in);
+        int main_choice;
+        HashMap<Integer, User> map = new HashMap<>();
+        do{
+            System.out.println("Select one of the following options : ");
+            System.out.println("1.Add User Details");
+            System.out.println("2.Display User Details");
+            System.out.println("3.Delete User Details");
+            System.out.println("4.Save User Details");
+            System.out.println("5.Exit");
+
+            main_choice = input.nextInt();
+            if(main_choice == 1){
+                UserDetails.ADD_UserDetails();
+            }
+            else if (main_choice == 2){
+                UserDetails.DISPLAY_UserDetails();
+            }
+            else if (main_choice == 3){
+                UserDetails.DELETE_UserDetails();
+            }
+            else if (main_choice == 4){
+                UserDetails.SAVE_UserDetails();
+            }
+        }while(main_choice != 5);
+    }
+}
+class UserDetails{
+
+    public static void ADD_UserDetails()throws Exception {
+        User user = new User();
+        Scanner input = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Enter FullName of the user");
+        String Full_Name = br.readLine();
+        if(Full_Name.equals("")){
+            System.out.println("Invalid input");
+            return;
+        }
+        System.out.println("Enter Age of the user");
+        int age = input.nextInt();
+        if(age<=0 && age >120){
+            System.out.println("Invalid input");
+            return;
+        }
+        System.out.println("Enter Address of the user");
+        String Address = br.readLine();
+        if(Address.equals("")){
+            System.out.println("Invalid input");
+            return;
+        }
+        System.out.println("Enter RollNumber of the user");
+        int RollNumber = input.nextInt();
+        if(RollNumber<0 && RollNumber >1200){
+            System.out.println("Invalid input");
+            return;
+        }
+        System.out.println("Enter the number of courses registered");
+        int course_count=input.nextInt();
+        char courses[]= new char[6];
+        if(course_count<4){
+            System.out.println("This user has less courses");
+            return;
+        }
+        else{
+            System.out.println("Enter the courses one by one");
+            for(int i=0;i<course_count;i++){
+                courses[i]=input.next().charAt(0);
+            }
+        }
+        user.Full_Name=Full_Name;
+        user.age=age;
+        user.Roll_Number=RollNumber;
+        user.Address=Address;
+        user.Courses =courses;
+        map.put(RollNumber,user);
+        System.out.println("User Added Successfully");
+
+
+    }
+
+    public static void DISPLAY_UserDetails() {
+
+    }
+    public static void DELETE_UserDetails() {
+
+    }
+
+    public static void SAVE_UserDetails() {
 
     }
 }
+
+class User {
+    String Full_Name, Address;
+    int age, Roll_Number;
+    char Courses[]={};
+
+}
 ///////
 //import java.util.HashMap;
-//        import java.util.Iterator;
-//        import java.util.Map;
-//        import java.util.Scanner;
-//        import java.io.*;
-//        import java.util.*;
+//import java.util.Iterator;
+//import java.util.Map;
+//import java.util.Scanner;
+//import java.io.*;
+//import java.util.*;
 //
 //class User implements java.io.Serializable {
 //    String Name, Address;
@@ -168,7 +264,7 @@ public class Assignment2 {
 //                int choice_sort = sc.nextInt();
 //                if (choice_sort == 1) {
 //                    System.out.println("Sorting based on Roll number : ");
-//                    custom_roll.compare(a, b);
+////                    custom_roll.compare(a, b);
 //                } else if (choice_sort == 2) {
 //
 //                } else if (choice_sort == 3) {
