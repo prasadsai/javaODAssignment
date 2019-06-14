@@ -9,7 +9,8 @@ public class Assignment2 {
 
         Scanner input = new Scanner(System.in);
         int main_choice;
-        HashMap<Integer, User> map = new HashMap<>();
+        HashMap<Integer, User> main_map = new HashMap<>();
+        User user;
         do{
             System.out.println("Select one of the following options : ");
             System.out.println("1.Add User Details");
@@ -20,10 +21,16 @@ public class Assignment2 {
 
             main_choice = input.nextInt();
             if(main_choice == 1){
-                UserDetails.ADD_UserDetails();
+                user = UserDetails.ADD_UserDetails();
+//                System.out.println(user);
+
+//                System.out.println(user.Roll_Number);
+
+                main_map.put(user.Roll_Number, user);
+                System.out.println(main_map.size());
             }
             else if (main_choice == 2){
-                UserDetails.DISPLAY_UserDetails();
+                UserDetails.DISPLAY_UserDetails(main_map);
             }
             else if (main_choice == 3){
                 UserDetails.DELETE_UserDetails();
@@ -34,9 +41,13 @@ public class Assignment2 {
         }while(main_choice != 5);
     }
 }
+//class mapping{
+//    HashMap<Integer, User> map = new HashMap<>();
+//}
 class UserDetails{
-
-    public static void ADD_UserDetails()throws Exception {
+    public static User ADD_UserDetails()throws Exception {
+        Assignment2 main_m = new Assignment2();
+//        mapping mapp = new mapping();
         User user = new User();
         Scanner input = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -44,32 +55,32 @@ class UserDetails{
         String Full_Name = br.readLine();
         if(Full_Name.equals("")){
             System.out.println("Invalid input");
-            return;
+            return null;
         }
         System.out.println("Enter Age of the user");
         int age = input.nextInt();
         if(age<=0 && age >120){
             System.out.println("Invalid input");
-            return;
+            return null;
         }
         System.out.println("Enter Address of the user");
         String Address = br.readLine();
         if(Address.equals("")){
             System.out.println("Invalid input");
-            return;
+            return null;
         }
         System.out.println("Enter RollNumber of the user");
         int RollNumber = input.nextInt();
         if(RollNumber<0 && RollNumber >1200){
             System.out.println("Invalid input");
-            return;
+            return null;
         }
         System.out.println("Enter the number of courses registered");
         int course_count=input.nextInt();
         char courses[]= new char[6];
         if(course_count<4){
             System.out.println("This user has less courses");
-            return;
+            return null;
         }
         else{
             System.out.println("Enter the courses one by one");
@@ -82,14 +93,32 @@ class UserDetails{
         user.Roll_Number=RollNumber;
         user.Address=Address;
         user.Courses =courses;
-        map.put(RollNumber,user);
-        System.out.println("User Added Successfully");
-
-
+//        map.put(RollNumber,user);
+//        mapp.map.put(RollNumber, user);
+        return user;
+//        System.out.println("User Added Successfully");
+//        System.out.println(mapp.map.size());
     }
 
-    public static void DISPLAY_UserDetails() {
-
+    public static void DISPLAY_UserDetails(HashMap<Integer,User> map) {
+        System.out.println("hello");
+        User user;
+        for (Map.Entry<Integer,User> entry : map.entrySet()){
+            int rollno = entry.getKey();
+            user = entry.getValue();
+            System.out.println(rollno);
+            System.out.println(user.Full_Name);
+            System.out.println(user.age);
+            System.out.println(user.Address);
+            System.out.println(user.Roll_Number);
+            for (char i: user.Courses) {
+                System.out.print(i);
+            }
+            System.out.println();
+        }
+//        for (Map.Entry<String,String> entry : mapp.map.entrySet())
+//            System.out.println("Key = " + entry.getKey() +
+//                    ", Value = " + entry.getValue());
     }
     public static void DELETE_UserDetails() {
 
@@ -101,6 +130,7 @@ class UserDetails{
 }
 
 class User {
+//    HashMap<Integer, User> map1 = new HashMap<>();
     String Full_Name, Address;
     int age, Roll_Number;
     char Courses[]={};
