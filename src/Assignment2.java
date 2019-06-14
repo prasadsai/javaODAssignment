@@ -22,18 +22,20 @@ public class Assignment2 {
             main_choice = input.nextInt();
             if(main_choice == 1){
                 user = UserDetails.ADD_UserDetails();
-//                System.out.println(user);
+//                System.out.println(user); will print the hash of the user
 
 //                System.out.println(user.Roll_Number);
-
-                main_map.put(user.Roll_Number, user);
-                System.out.println(main_map.size());
+                if(user != null) {
+                    main_map.put(user.Roll_Number, user);
+                    System.out.println("User Added Successfully");
+                    System.out.println("Number of users: " + main_map.size());
+                }
             }
             else if (main_choice == 2){
                 UserDetails.DISPLAY_UserDetails(main_map);
             }
             else if (main_choice == 3){
-                UserDetails.DELETE_UserDetails();
+                UserDetails.DELETE_UserDetails(main_map);
             }
             else if (main_choice == 4){
                 UserDetails.SAVE_UserDetails();
@@ -41,13 +43,9 @@ public class Assignment2 {
         }while(main_choice != 5);
     }
 }
-//class mapping{
-//    HashMap<Integer, User> map = new HashMap<>();
-//}
+
 class UserDetails{
     public static User ADD_UserDetails()throws Exception {
-        Assignment2 main_m = new Assignment2();
-//        mapping mapp = new mapping();
         User user = new User();
         Scanner input = new Scanner(System.in);
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -59,7 +57,7 @@ class UserDetails{
         }
         System.out.println("Enter Age of the user");
         int age = input.nextInt();
-        if(age<=0 && age >120){
+        if(age<0 && age >120){
             System.out.println("Invalid input");
             return null;
         }
@@ -93,26 +91,36 @@ class UserDetails{
         user.Roll_Number=RollNumber;
         user.Address=Address;
         user.Courses =courses;
-//        map.put(RollNumber,user);
-//        mapp.map.put(RollNumber, user);
         return user;
-//        System.out.println("User Added Successfully");
-//        System.out.println(mapp.map.size());
+
     }
 
     public static void DISPLAY_UserDetails(HashMap<Integer,User> map) {
-        System.out.println("hello");
+        for(int i=0;i<70;i++){
+            System.out.print("-");
+        }
+        System.out.println();
+        System.out.print("Name\t\t\t\t");
+        System.out.print("Roll Number\t\t");
+        System.out.print("Age\t\t");
+        System.out.print("Address\t\t");
+        System.out.print("courses");
+        System.out.println();
+        for(int i=0;i<70;i++){
+            System.out.print("-");
+        }
         User user;
         for (Map.Entry<Integer,User> entry : map.entrySet()){
-            int rollno = entry.getKey();
+            System.out.println();
+//            int rollno = entry.getKey();
             user = entry.getValue();
-            System.out.println(rollno);
-            System.out.println(user.Full_Name);
-            System.out.println(user.age);
-            System.out.println(user.Address);
-            System.out.println(user.Roll_Number);
+//            System.out.println(rollno);
+            System.out.print(user.Full_Name + "\t");
+            System.out.print(user.Roll_Number + "\t\t\t\t");
+            System.out.print(user.age + "\t");
+            System.out.print(user.Address + "\t");
             for (char i: user.Courses) {
-                System.out.print(i);
+                System.out.print(i + " ");
             }
             System.out.println();
         }
@@ -120,9 +128,19 @@ class UserDetails{
 //            System.out.println("Key = " + entry.getKey() +
 //                    ", Value = " + entry.getValue());
     }
-    public static void DELETE_UserDetails() {
-
-    }
+    public static void DELETE_UserDetails(HashMap<Integer,User> map)throws Exception {
+//        User user;
+        System.out.println("Enter the Roll Number of the user that you want to delete");
+        Scanner input = new Scanner(System.in);
+        int rollout = input.nextInt();
+        for (Map.Entry<Integer,User> entry : map.entrySet()){
+            System.out.println();
+            if(entry.getKey() == rollout){
+                map.remove(entry.getKey());
+            }
+            }
+            System.out.println();
+        }
 
     public static void SAVE_UserDetails() {
 
