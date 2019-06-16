@@ -1,8 +1,5 @@
 import java.io.*;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Assignment2 {
     public static void main(String args[])throws Exception{
@@ -38,7 +35,7 @@ public class Assignment2 {
                 UserDetails.DELETE_UserDetails(main_map);
             }
             else if (main_choice == 4){
-                UserDetails.SAVE_UserDetails();
+                UserDetails.SAVE_UserDetails(main_map);
             }
         }while(main_choice != 5);
     }
@@ -95,7 +92,7 @@ class UserDetails{
 
     }
 
-    public static void DISPLAY_UserDetails(HashMap<Integer,User> map) {
+    public static void DISPLAY_UserDetails(HashMap<Integer,User> map)throws Exception {
         for(int i=0;i<70;i++){
             System.out.print("-");
         }
@@ -110,6 +107,30 @@ class UserDetails{
             System.out.print("-");
         }
         User user;
+        File f = new File("obj.txt");
+        FileInputStream fis = new FileInputStream(f);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        HashMap<Integer,User> fmap = (HashMap<Integer, User>) ois.readObject();
+        ois.close();
+        fis.close();
+
+        for(Map.Entry<Integer, User> fentry : fmap.entrySet()){
+            System.out.println();
+//            int rollno = entry.getKey();
+            user = fentry.getValue();
+//            System.out.println(rollno);
+            System.out.print(user.Full_Name + "\t");
+            System.out.print(user.Roll_Number + "\t\t\t\t");
+            System.out.print(user.age + "\t");
+            System.out.print(user.Address + "\t");
+            for (char i: user.Courses) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+//            UserDetails.DISPLAY_UserDetails().loop();
+        }
+
         for (Map.Entry<Integer,User> entry : map.entrySet()){
             System.out.println();
 //            int rollno = entry.getKey();
@@ -123,10 +144,18 @@ class UserDetails{
                 System.out.print(i + " ");
             }
             System.out.println();
+//            UserDetails.DISPLAY_UserDetails().loop();
         }
-//        for (Map.Entry<String,String> entry : mapp.map.entrySet())
-//            System.out.println("Key = " + entry.getKey() +
-//                    ", Value = " + entry.getValue());
+//        void loop(){
+//            System.out.print(user.Full_Name + "\t");
+//            System.out.print(user.Roll_Number + "\t\t\t\t");
+//            System.out.print(user.age + "\t");
+//            System.out.print(user.Address + "\t");
+//            for (char i: user.Courses) {
+//                System.out.print(i + " ");
+//            }
+//            System.out.println();
+//        }
     }
     public static void DELETE_UserDetails(HashMap<Integer,User> map)throws Exception {
 //        User user;
@@ -141,18 +170,21 @@ class UserDetails{
             }
             System.out.println();
         }
+    public static void SAVE_UserDetails(HashMap<Integer, User> map)throws Exception {
+        File f = new File("obj.txt");
+        FileOutputStream fos = new FileOutputStream(f);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(map);
+        oos.flush();
+        oos.close();
+        fos.close();
+            }
+        }
 
-    public static void SAVE_UserDetails() {
-
-    }
-}
-
-class User {
-//    HashMap<Integer, User> map1 = new HashMap<>();
+class User implements java.io.Serializable {
     String Full_Name, Address;
     int age, Roll_Number;
     char Courses[]={};
-
 }
 ///////
 //import java.util.HashMap;
